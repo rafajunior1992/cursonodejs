@@ -22,19 +22,23 @@ Array.prototype.meuFilter = function(callback) {
   }
   return lista;
 }
+
+
+//por padrão precisa retornar um booleano
+//para informar se deve manter ou remover da lista
+//true > mantem
+//não encontrou = -1
+//encontrou = posição no array
+// const pokemonFogo = results.filter(function(item) {
+//   const result = item.name.toLowerCase().indexOf('pid') !== -1
+//   return result
+// })
+
+
  async function main() {
   try {
     const { results } = await obterPessoas('')
 
-    //por padrão precisa retornar um booleano
-    //para informar se deve manter ou remover da lista
-    //true > mantem
-    //não encontrou = -1
-    //encontrou = posição no array
-    // const pokemonFogo = results.filter(function(item) {
-    //   const result = item.name.toLowerCase().indexOf('pid') !== -1
-    //   return result
-    // })
     const pokemonFogo = results.meuFilter((item, index, lista) => {
       console.log(`index: ${index}`, lista.length)
       return item.name.toLowerCase().indexOf('char') !== -1
