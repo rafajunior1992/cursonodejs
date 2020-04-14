@@ -46,6 +46,39 @@ class Database {
     const dadosFiltrados = dados.filter(item => (id ? (item.id === id) : true))
     return dadosFiltrados
   }
+
+  async remover(id) {
+    if (!id) {
+      await this.escreverArquivo([])
+    }
+    
+    const dados = await this.obterDadosArquivo()
+    const indice = dados.findIndex(item => item.id === parseInt(id))
+    if (indice === -1) {
+      throw Error('O usuário informado não existe')
+    }
+    dados.splice(indice, 1)
+    return await this.escreverArquivo(dados)
+  }
+
+  async atualizar(id, modificacoes) {
+    const dados = await this.obterDadosArquivo()
+    const indice = dados.findIndex(item => item.id === parseInt(id))
+    if(indice === -1) {
+      throw Error('Herói não existe')
+    }
+
+    const atual = dados[indice]
+    const objetoAtualizar = {
+      ...atual,
+      ...modificacoes
+    }
+    dados.splice(indice, 1)
+    return await this.escreverArquivo([
+      ...dados, 
+      objetoAtualizar
+    ])
+  }
 }
 
 module.exports = new Database()
